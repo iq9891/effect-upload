@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>判断上传照片大小</title>
+</head>
+<body>
+<input type="file" id="imgFile" name="upload" style="width:150px;" onchange="getPhotoSize(this)"/>
+<script type="text/javascript">
+
+//判断照片大小
+function getPhotoSize(obj){
+    photoExt=obj.value.substr(obj.value.lastIndexOf(".")).toLowerCase();//获得文件后缀名
+	console.log(photoExt);
+    if(photoExt!='.jpg'){
+        alert("请上传后缀名为jpg的照片!");
+        return false;
+    }
+    var fileSize = 0;
+    var isIE = /msie/i.test(navigator.userAgent) && !window.opera;            
+    if (isIE && !obj.files) {          
+         var filePath = obj.value;            
+         var fileSystem = new ActiveXObject("Scripting.FileSystemObject");   
+         var file = fileSystem.GetFile (filePath);               
+         fileSize = file.Size;         
+    }else {  
+         fileSize = obj.files[0].size;     
+    } 
+    fileSize=Math.round(fileSize/1024*100)/100; //单位为KB
+    if(fileSize>=100){
+        alert("照片最大尺寸为1000KB，请重新上传!");
+        return false;
+    }
+}
+</script>
+</body>
+</html>
